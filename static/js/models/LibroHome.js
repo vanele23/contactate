@@ -21,7 +21,7 @@ var LibroList = Backbone.Collection.extend({
         model: Libro
     },
 	model: Libro,
-	url: "/static/data/libros.json", /*Donde se alojan los datos de todos los libros*/
+	url: "contactate/static/data/libros.json", /*Donde se alojan los datos de todos los libros*/
 	/* Orden ascendete por titulo*/
 	sortOrder: "asc", 
 	sortField: "titulo",
