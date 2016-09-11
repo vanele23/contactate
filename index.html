@@ -1,1 +1,101 @@
-Hello World!
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+    
+	<title>Libros Libros</title>
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	
+	<script src="static/js/vendor/underscore-min.js"></script>
+	<script src="static/js/vendor/backbone-min.js"></script>
+	
+
+	<script src="static/js/models/LibroHome.js"></script>
+	<script src="static/js/views/LibroView.js"></script>
+	<script src="static/js/app.js"></script>
+</head>
+<body>
+	<div id="content">
+		<div id="ui"></div>
+		<div id="app"></div>
+	</div>
+</body>
+<script type="text/template" id="searchTemplate">
+<h2>Libros</h2>
+<p>
+	<strong>Buscar</strong>
+	&nbsp;&nbsp;&nbsp;&nbsp;
+
+	Título o Autor: <input id="titulo" onKeyUp="onTituloFilter()" value='<%= filter %>'/>
+
+	&nbsp;&nbsp;&nbsp;&nbsp;
+
+	<strong>Ordenar</strong>
+			<select onChange="onChangeSortOrder()" id="sortField">
+				<option <% if(sortField === "titulo"){ %> selected <% } %> value="titulo">Titulo</option>
+				<option <% if(sortField === "autor"){ %> selected <% } %> value="autor">Autor</option>
+				<!-- podríamos ordenar por editorial tambien-->
+				<!-- <option value="autor">Editorial</option> -->
+		</select>
+	<select onChange="onChangeSortOrder()" id="sortOrder">
+			<option <% if(sortOrder === "asc"){ %> selected <% } %> value="asc">Ascendente</option>
+		<option <% if(sortOrder === "desc"){ %> selected <% } %> value="desc">Descendente</option>
+	</select>
+</p>
+</script>
+<script type="text/template" id="itemTemplate">
+    <div>
+    
+    	<a href='#/libro/<%= id %>'>
+			<img src='<%= img %>' width='95' height='150'>
+		</a>
+		<p >
+	    	<a href='#/libro/<%= id %>'><%= titulo %></a>
+	    	<br/><br/>
+			by <strong><%= autor %></strong>
+			<br/><br/>
+			<%= descripcion %>
+	    </p>
+    </div>
+ </script>
+
+ <script type="text/template" id="fichaTemplate">
+ 	<a href="#/libros">< volver</a>
+	<h2><%= titulo %></h2>
+	<p>
+		<img src='<%= img %>' width='95' height='150'>
+		<br/><br/>
+		by <strong><%= autor %></strong>
+		<br/><br/>
+		<i><%= editorial %></i>
+		<br/><br/>
+		<%= descripcion %>
+    </p>
+ </script>
+
+
+<script type="text/javascript">
+	$(function(){ 
+		
+		var bootstrap = new LibroList();
+		
+		bootstrap.fetch();
+
+		App.start(bootstrap);
+
+		//ui event listeners
+		onChangeSortOrder = function()
+		{
+			App.sortBy($('#sortField').val(), $('#sortOrder').val());
+		}
+
+		//ui event listeners
+		onTituloFilter=function()
+		{
+			App.filterBy($('#titulo').val());
+		}
+
+	});
+</script>
+
+</html>
