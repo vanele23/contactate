@@ -3,14 +3,14 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Agenda de Contactos</title>
-	<script src="static/js/vendor/jquery-3.1.0.js"></script>
+	<title>Libros Libros</title>
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
 	<script src="static/js/vendor/underscore-min.js"></script>
 	<script src="static/js/vendor/backbone-min.js"></script>
 
 
-	<script src="static/js/models/ContactosHome.js"></script>
+	<script src="static/js/models/LibroHome.js"></script>
 	<script src="static/js/views/LibroView.js"></script>
 	<script src="static/js/app.js"></script>
 </head>
@@ -21,19 +21,19 @@
 	</div>
 </body>
 <script type="text/template" id="searchTemplate">
-<h2>Todos los Contactos</h2>
+<h2>Libros</h2>
 <p>
 	<strong>Buscar</strong>
 	&nbsp;&nbsp;&nbsp;&nbsp;
 
-	Apellido o Nombre: <input id="apellido" onKeyUp="onApellidoFilter()" value='<%= filter %>'/>
+	Título o Autor: <input id="titulo" onKeyUp="onTituloFilter()" value='<%= filter %>'/>
 
 	&nbsp;&nbsp;&nbsp;&nbsp;
 
 	<strong>Ordenar</strong>
 			<select onChange="onChangeSortOrder()" id="sortField">
-				<option <% if(sortField === "apellido"){ %> selected <% } %> value="apellido">Apellido</option>
-				<option <% if(sortField === "nombre"){ %> selected <% } %> value="nombre">Nombre</option>
+				<option <% if(sortField === "titulo"){ %> selected <% } %> value="titulo">Titulo</option>
+				<option <% if(sortField === "autor"){ %> selected <% } %> value="autor">Autor</option>
 				<!-- podríamos ordenar por editorial tambien-->
 				<!-- <option value="autor">Editorial</option> -->
 		</select>
@@ -42,38 +42,45 @@
 		<option <% if(sortOrder === "desc"){ %> selected <% } %> value="desc">Descendente</option>
 	</select>
 </p>
+<table>
+      <thead>
+        <tr>
+          <th>NOMBRE</th>
+          <th>APELLIDO</th>
+        </tr>
+      </thead>
+      <!-- We'll attach the PeopleView to this element -->
+      <tbody>
+      </tbody>
+    </table>
 </script>
 <script type="text/template" id="itemTemplate">
     <div>
 
-    	<a href='#/contacto/<%= id %>'>
+    	<a href='#/libro/<%= id %>'>
 			<img src='<%= img %>' width='95' height='150'>
 		</a>
 		<p >
-	    	<a href='#/contacto/<%= id %>'><%= Apellido %></a>
+	    	<a href='#/libro/<%= id %>'><%= titulo %></a>
 	    	<br/><br/>
-			<strong><%= Nombre %></strong>
+			by <strong><%= autor %></strong>
 			<br/><br/>
-			<%= alias %>
-			<br/><br/>
-			<%= telefono %>
-			<br/><br/>
-			<%= email %>
+			<%= descripcion %>
 	    </p>
     </div>
  </script>
 
  <script type="text/template" id="fichaTemplate">
- 	<a href="#/contacto">< volver</a>
-	<h2><%= apellido %></h2>
+ 	<a href="#/libros">< volver</a>
+	<h2><%= titulo %></h2>
 	<p>
 		<img src='<%= img %>' width='95' height='150'>
 		<br/><br/>
-		by <strong><%= nombre %></strong>
+		by <strong><%= autor %></strong>
 		<br/><br/>
-		<i><%= alias %></i>
+		<i><%= editorial %></i>
 		<br/><br/>
-		<%= telefono %>
+		<%= descripcion %>
     </p>
  </script>
 
@@ -94,9 +101,9 @@
 		}
 
 		//ui event listeners
-		onApellidoFilter=function()
+		onTituloFilter=function()
 		{
-			App.filterBy($('#apellido').val());
+			App.filterBy($('#titulo').val());
 		}
 
 	});

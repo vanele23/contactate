@@ -1,11 +1,11 @@
 /**
- * App
+ * App 
  */
 var App = new (Backbone.Router.extend({
 
   routes: {
     //"libro/:id": "show", //matches "libro/1" y "libro/1/"
-    "contacto(/)": "index", //matches "libros" y "libros/"
+    "libros(/)": "index", //matches "libros" y "libros/"
     "*any" : "redirect" //matches anything else *wildcard ;)
      },
 
@@ -17,7 +17,7 @@ var App = new (Backbone.Router.extend({
 
     //creamos lista de libros sin filtrar
     //mediante bootstrapping :)
-    this.ContactosList = new ContactosList(bootstrap.data);
+    this.librosList = new LibroList(bootstrap.data);
 
     //lista filtrada que se usará para generar las vistas
     this.activeList = null;
@@ -30,14 +30,14 @@ var App = new (Backbone.Router.extend({
   redirect: function()
   {
     //redirigimos a ruta inicial
-    this.navigate("contacto/",true);
+    this.navigate("libros/",true);
   },
 
   index: function(){
 
     //initialize
     if(!this.activeList)
-      this.activeList = new ContactosList(this.ContactosList.models);
+      this.activeList = new LibroList(this.librosList.models);
 
     var librosView = new LibroListaView({collection: this.activeList});
 
@@ -75,7 +75,7 @@ var App = new (Backbone.Router.extend({
     var field = this.activeList.sortField;
     var order = this.activeList.sortOrder;
 
-    this.activeList = this.ContactosList.search(this.filter);
+    this.activeList = this.librosList.search(this.filter);
 
     //sort results
     this.activeList.sortField = field;
