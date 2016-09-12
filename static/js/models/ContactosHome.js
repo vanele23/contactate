@@ -1,8 +1,8 @@
 /*Moldelo Libroo*/
 
-var Libro = Backbone.Model.extend({
-	defaults: { id:0, img: '', titulo: '', autor:'', editorial:'', descripcion:''},
-	urlRoot: "data/libros",
+var Contactos = Backbone.Model.extend({
+	defaults: { id:0, nombre: '', apellido:'', alias:'', telefono:'',email: '',direccion:'',fechaCreacion:''},
+	/*urlRoot: "libros.json",*/
 
 	parse : function(response)
 	{
@@ -16,22 +16,26 @@ var Libro = Backbone.Model.extend({
 });
 
 
-var LibroList = Backbone.Collection.extend({
-	defaults: {
-        model: Libro
+var ContactosList = Backbone.Collection.extend({
+defaults: {
+        model: Contactos
     },
-	model: Libro,
-	url: "static/data/libros.json", /*Donde se alojan los datos de todos los libros*/
+	model: Contactos,
+	url: "libros.json", /*Donde se alojan los datos de todos los libros*/
+
 	/* Orden ascendete por titulo*/
-	sortOrder: "asc", 
-	sortField: "titulo",
-	initialize: function(){
+	sortOrder: "asc",
+	sortField: "apellido",
+	/*initialize: function(){
         this.parse();
+    },*/
+		parse: function(response){
+       return response.results;
     },
 
-    parse: function(json) {
+  /*  parse: function(json) {
         return _.map(json, function(p) { return p.product });
-    },
+    },*/
 
 	/*Metodos a implementar Comparator y Search*/
 	comparator: function (libro1, libro2)
@@ -56,13 +60,13 @@ var LibroList = Backbone.Collection.extend({
 		//iteramos la coll
 		var filteredList = this.filter(function(data)
 		{
-			return (pattern.test( data.get('autor') + "  "+data.get('titulo') ));
+			return (pattern.test( data.get('nombre') + "  "+data.get('apellido') ));
 			//podríamos filtrar por editorial también
 			//return ( pattern.test(data.get('autor')) || pattern.test(data.get('titulo')) );// || pattern.test(data.get('editorial')) );
 		});
 
 		//create new coll con los elementos filtrados
-		var coll = new LibroList(filteredList);
+		var coll = new ContactosList(filteredList);
 
 		return coll;
 
